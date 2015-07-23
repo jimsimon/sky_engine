@@ -1,20 +1,7 @@
 // Copyright 2015 The Chromium Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
-
-import 'dart:async';
-import 'dart:collection';
-import 'dart:sky' as sky;
-
-import 'package:sky/base/hit_test.dart';
-import 'package:sky/mojo/activity.dart' as activity;
-import 'package:sky/rendering/box.dart';
-import 'package:sky/rendering/object.dart';
-import 'package:sky/rendering/sky_binding.dart';
-
-export 'package:sky/rendering/box.dart' show BoxConstraints, BoxDecoration, Border, BorderSide, EdgeDims;
-export 'package:sky/rendering/flex.dart' show FlexDirection;
-export 'package:sky/rendering/object.dart' show Point, Offset, Size, Rect, Color, Paint, Path;
+part of sky.widgets;
 
 final bool _shouldLogRenderDuration = false;
 

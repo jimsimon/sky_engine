@@ -1,20 +1,7 @@
 // Copyright 2015 The Chromium Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
-
-import 'dart:math' as math;
-import 'dart:sky' as sky;
-
-import 'package:sky/animation/animated_value.dart';
-import 'package:sky/animation/animation_performance.dart';
-import 'package:sky/painting/box_painter.dart';
-import 'package:sky/theme/colors.dart';
-import 'package:sky/theme/shadows.dart';
-import 'package:sky/widgets/animated_component.dart';
-import 'package:sky/widgets/basic.dart';
-import 'package:sky/widgets/navigator.dart';
-import 'package:sky/widgets/popup_menu_item.dart';
-import 'package:sky/widgets/scrollable_viewport.dart';
+part of sky.widgets;
 
 const Duration _kMenuDuration = const Duration(milliseconds: 300);
 double _kMenuCloseIntervalEnd = 2.0 / 3.0;
@@ -110,7 +97,7 @@ class PopupMenu extends AnimatedComponent {
 
   void _updateBoxPainter() {
     _painter = new BoxPainter(new BoxDecoration(
-      backgroundColor: Grey[50],
+      backgroundColor: colors.Grey[50],
       borderRadius: 2.0,
       boxShadow: shadows[level]));
   }

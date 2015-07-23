@@ -1,17 +1,7 @@
 // Copyright 2015 The Chromium Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
-
-import 'dart:math' as math;
-import 'dart:sky' as sky;
-
-import 'package:sky/animation/animated_value.dart';
-import 'package:sky/animation/animation_performance.dart';
-import 'package:sky/animation/curves.dart';
-import 'package:sky/rendering/box.dart';
-import 'package:sky/rendering/object.dart';
-import 'package:sky/widgets/basic.dart';
-import 'package:sky/widgets/widget.dart';
+part of sky.widgets;
 
 const int _kSplashInitialOpacity = 0x80;
 const double _kSplashCancelledVelocity = 0.3;

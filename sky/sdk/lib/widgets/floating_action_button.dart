@@ -1,13 +1,7 @@
 // Copyright 2015 The Chromium Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
-
-import 'package:sky/widgets/basic.dart';
-import 'package:sky/widgets/button_base.dart';
-import 'package:sky/widgets/icon.dart';
-import 'package:sky/widgets/ink_well.dart';
-import 'package:sky/widgets/material.dart';
-import 'package:sky/widgets/theme.dart';
+part of sky.widgets;
 
 // TODO(eseidel): This needs to change based on device size?
 // http://www.google.com/design/spec/layout/metrics-keylines.html#metrics-keylines-keylines-spacing

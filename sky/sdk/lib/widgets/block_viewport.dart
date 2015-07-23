@@ -1,13 +1,7 @@
 // Copyright 2015 The Chromium Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
-
-import 'dart:collection';
-
-import 'package:sky/rendering/block.dart';
-import 'package:sky/rendering/box.dart';
-import 'package:sky/rendering/object.dart';
-import 'package:sky/widgets/widget.dart';
+part of sky.widgets;
 
 // return null if index is greater than index of last entry
 typedef Widget IndexedBuilder(int index);

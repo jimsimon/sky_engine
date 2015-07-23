@@ -1,16 +1,7 @@
 // Copyright 2015 The Chromium Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
-
-import 'dart:sky' as sky;
-
-import 'package:sky/animation/animated_value.dart';
-import 'package:sky/animation/animation_performance.dart';
-import 'package:sky/animation/curves.dart';
-import 'package:sky/widgets/animated_component.dart';
-import 'package:sky/widgets/basic.dart';
-import 'package:sky/widgets/widget.dart';
-import 'package:vector_math/vector_math.dart';
+part of sky.widgets;
 
 const Duration _kCardDismissFadeout = const Duration(milliseconds: 200);
 const Duration _kCardDismissResize = const Duration(milliseconds: 300);

@@ -1,18 +1,7 @@
 // Copyright 2015 The Chromium Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
-
-import 'dart:sky' as sky;
-
-import 'package:sky/painting/text_style.dart';
-import 'package:sky/theme/colors.dart' as colors;
-import 'package:sky/widgets/basic.dart';
-import 'package:sky/widgets/button_base.dart';
-import 'package:sky/widgets/default_text_style.dart';
-import 'package:sky/widgets/icon.dart';
-import 'package:sky/widgets/ink_well.dart';
-import 'package:sky/widgets/theme.dart';
-import 'package:sky/widgets/widget.dart';
+part of sky.widgets;
 
 class DrawerItem extends ButtonBase {
   DrawerItem({ Key key, this.icon, this.children, this.onPressed, this.selected: false })

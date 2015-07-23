@@ -1,23 +1,7 @@
 // Copyright 2015 The Chromium Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
-
-import 'dart:math' as math;
-
-import 'package:sky/animation/scroll_behavior.dart';
-import 'package:sky/painting/text_style.dart';
-import 'package:sky/rendering/box.dart';
-import 'package:sky/rendering/object.dart';
-import 'package:sky/theme/colors.dart' as colors;
-import 'package:sky/theme/typography.dart' as typography;
-import 'package:sky/widgets/basic.dart';
-import 'package:sky/widgets/default_text_style.dart';
-import 'package:sky/widgets/icon.dart';
-import 'package:sky/widgets/ink_well.dart';
-import 'package:sky/widgets/scrollable.dart';
-import 'package:sky/widgets/theme.dart';
-import 'package:sky/widgets/widget.dart';
-import 'package:vector_math/vector_math.dart';
+part of sky.widgets;
 
 typedef void SelectedIndexChanged(int selectedIndex);
 typedef void LayoutChanged(Size size, List<double> widths);

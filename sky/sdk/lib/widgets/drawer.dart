@@ -1,19 +1,7 @@
 // Copyright 2015 The Chromium Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
-
-import 'dart:sky' as sky;
-
-import 'package:sky/animation/animated_value.dart';
-import 'package:sky/animation/animation_performance.dart';
-import 'package:sky/theme/shadows.dart';
-import 'package:sky/theme/colors.dart' as colors;
-import 'package:sky/widgets/animated_component.dart';
-import 'package:sky/widgets/basic.dart';
-import 'package:sky/widgets/navigator.dart';
-import 'package:sky/widgets/scrollable_viewport.dart';
-import 'package:sky/widgets/theme.dart';
-import 'package:vector_math/vector_math.dart';
+part of sky.widgets;
 
 // TODO(eseidel): Draw width should vary based on device size:
 // http://www.google.com/design/spec/layout/structure.html#structure-side-nav

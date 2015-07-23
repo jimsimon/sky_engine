@@ -1,14 +1,7 @@
 // Copyright 2015 The Chromium Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
-
-import 'dart:sky' as sky;
-
-import 'package:sky/widgets/theme.dart';
-import 'package:sky/widgets/basic.dart';
-import 'package:sky/widgets/toggleable.dart';
-
-export 'toggleable.dart' show ValueChanged;
+part of sky.widgets;
 
 const double _kMidpoint = 0.5;
 const sky.Color _kLightUncheckedColor = const sky.Color(0x8A000000);

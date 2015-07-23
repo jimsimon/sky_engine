@@ -1,16 +1,7 @@
 // Copyright 2015 The Chromium Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
-
-import 'package:vector_math/vector_math.dart';
-
-import 'package:sky/animation/animated_value.dart';
-import 'package:sky/animation/animation_performance.dart';
-import 'package:sky/animation/curves.dart';
-import 'package:sky/base/lerp.dart';
-import 'package:sky/painting/box_painter.dart';
-import 'package:sky/widgets/basic.dart';
-import 'package:sky/widgets/animated_component.dart';
+part of sky.widgets;
 
 class AnimatedBoxConstraintsValue extends AnimatedValue<BoxConstraints> {
   AnimatedBoxConstraintsValue(BoxConstraints begin, { BoxConstraints end, Curve curve: linear })

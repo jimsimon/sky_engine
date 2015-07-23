@@ -1,29 +1,7 @@
 // Copyright 2015 The Chromium Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
-
-import 'dart:async';
-import 'dart:sky' as sky;
-
-import 'package:vector_math/vector_math.dart';
-
-import 'package:sky/mojo/asset_bundle.dart';
-import 'package:sky/mojo/net/image_cache.dart' as image_cache;
-import 'package:sky/painting/text_style.dart';
-import 'package:sky/rendering/block.dart';
-import 'package:sky/rendering/box.dart';
-import 'package:sky/rendering/flex.dart';
-import 'package:sky/rendering/object.dart';
-import 'package:sky/rendering/paragraph.dart';
-import 'package:sky/rendering/stack.dart';
-import 'package:sky/widgets/default_text_style.dart';
-import 'package:sky/widgets/widget.dart';
-
-export 'package:sky/rendering/box.dart' show BackgroundImage, BoxConstraints, BoxDecoration, Border, BorderSide, EdgeDims;
-export 'package:sky/rendering/flex.dart' show FlexDirection, FlexJustifyContent, FlexAlignItems;
-export 'package:sky/rendering/object.dart' show Point, Offset, Size, Rect, Color, Paint, Path;
-export 'package:sky/widgets/widget.dart' show Key, GlobalKey, Widget, Component, StatefulComponent, App, runApp, Listener, ParentDataNode;
-
+part of sky.widgets;
 
 // PAINTING NODES
 

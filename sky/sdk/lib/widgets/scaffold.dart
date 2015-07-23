@@ -1,13 +1,7 @@
 // Copyright 2015 The Chromium Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
-
-import 'dart:sky' as sky;
-
-import 'package:sky/rendering/box.dart';
-import 'package:sky/rendering/object.dart';
-import 'package:sky/theme/view_configuration.dart';
-import 'package:sky/widgets/widget.dart';
+part of sky.widgets;
 
 // Slots are painted in this order and hit tested in reverse of this order
 enum ScaffoldSlots {

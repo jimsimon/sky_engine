@@ -1,9 +1,7 @@
 // Copyright 2015 The Chromium Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
-
-import 'package:sky/widgets/basic.dart';
-import 'package:sky/widgets/theme.dart';
+part of sky.widgets;
 
 class DrawerDivider extends Component {
   DrawerDivider({ Key key }) : super(key: key);
