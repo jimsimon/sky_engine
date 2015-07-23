@@ -7,15 +7,7 @@ import 'package:sky/mojo/asset_bundle.dart';
 import 'package:sky/painting/box_painter.dart';
 import 'package:sky/theme/colors.dart' as colors;
 import 'package:sky/theme/typography.dart' as typography;
-import 'package:sky/widgets/basic.dart';
-import 'package:sky/widgets/card.dart';
-import 'package:sky/widgets/material.dart';
-import 'package:sky/widgets/scaffold.dart';
-import 'package:sky/widgets/task_description.dart';
-import 'package:sky/widgets/theme.dart';
-import 'package:sky/widgets/tool_bar.dart';
-import 'package:sky/widgets/scrollable_list.dart';
-import 'package:sky/widgets/ink_well.dart';
+import 'package:sky/widgets/widgets.dart';
 
 AssetBundle _initBundle() {
   if (rootBundle != null)
