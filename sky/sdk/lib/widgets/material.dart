@@ -2,6 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+library sky.widgets.material;
+
 import 'package:sky/painting/box_painter.dart';
 import 'package:sky/theme/shadows.dart';
 import 'package:sky/widgets/animated_container.dart';

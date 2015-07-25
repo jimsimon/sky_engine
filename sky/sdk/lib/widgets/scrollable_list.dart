@@ -2,6 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+library sky.widgets.scrollable_list;
+
 import 'dart:math' as math;
 
 import 'package:sky/widgets/fixed_height_scrollable.dart';
