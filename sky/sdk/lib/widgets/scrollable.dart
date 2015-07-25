@@ -2,8 +2,6 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-library sky.widgets.scrollable;
-
 import 'dart:sky' as sky;
 
 import 'package:newton/newton.dart';
