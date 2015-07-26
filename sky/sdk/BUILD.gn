@@ -27,8 +27,27 @@ action("sky") {
   ]
 }
 
+action("widgets") {
+  script = "//sky/build/execute_shell_command.py"
+
+  stamp_file = "$target_gen_dir/widgets.stamp"
+
+  inputs = [
+    rebase_path("//sky/sdk/lib/widgets/widgets.dart", root_build_dir)
+  ]
+
+  outputs = [ stamp_file ]
+
+  args = [
+    "dart",
+    rebase_path("//sky/build/verify_widgets_superfile.dart", root_build_dir),
+    rebase_path(stamp_file, root_build_dir)
+  ]
+}
+
 group("sdk") {
   deps = [
     ":sky",
+    ":widgets"
   ]
 }

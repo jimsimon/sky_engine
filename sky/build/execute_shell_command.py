@@ -2,6 +2,6 @@
 
 import sys, subprocess
 
-args = sys.argv
-returnCode = subprocess.call(args[1:])
-sys.exit(returnCode);
+returnCode = subprocess.call(sys.argv[1:])
+print returnCode
+sys.exit(returnCode)

@@ -7,7 +7,7 @@ const RELATIVE_ACTUAL_WIDGETS_FILE_PATH = 'sky/sdk/lib/widgets/widgets.dart';
 const RELATIVE_GENERATED_WIDGETS_FILE_PATH = 'sky/build/widgets.dart';
 const CONTENTS_MISMATCH_ERROR_MSG = 'widgets.dart does not contain all widgets.  Did you add a new widget and forget to update it?';
 
-main() async {
+main(List<String> args) async {
   var projectRootPath = _getProjectRootPath();
   var actualWidgetsFilePath = '$projectRootPath/$RELATIVE_ACTUAL_WIDGETS_FILE_PATH';
   var generatedWidgetsFilePath = '$projectRootPath/$RELATIVE_GENERATED_WIDGETS_FILE_PATH';
@@ -20,6 +20,10 @@ main() async {
   if (actualContents != generatedContents) {
     throw new Exception(CONTENTS_MISMATCH_ERROR_MSG);
   }
+
+  await Process.run("touch", [args[0]]);
+
+  throw new Exception();
 }
 
 _getProjectRootPath() {
