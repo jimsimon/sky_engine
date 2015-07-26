@@ -12,7 +12,6 @@ import 'package:sky/widgets/default_text_style.dart';
 import 'package:sky/widgets/dialog.dart';
 import 'package:sky/widgets/floating_action_button.dart';
 import 'package:sky/widgets/flat_button.dart';
-import 'package:sky/widgets/focus.dart';
 import 'package:sky/widgets/icon.dart';
 import 'package:sky/widgets/icon_button.dart';
 import 'package:sky/widgets/material.dart';
@@ -68,7 +67,7 @@ class AddressBookApp extends App {
       child: new Icon(type: 'image/photo_camera', size: 24),
       backgroundColor: Theme.of(this).accentColor,
       onPressed: () {
-        navigator.push(new DialogRoute(builder: (navigator, route) {
+        showDialog(navigator, (navigator) {
           return new Dialog(
             title: new Text("Describe your picture"),
             content: new ScrollableBlock([
@@ -79,9 +78,7 @@ class AddressBookApp extends App {
             actions: [
               new FlatButton(
                 child: new Text('DISCARD'),
-                onPressed: () {
-                  navigator.pop();
-                }
+                onPressed: navigator.pop
               ),
               new FlatButton(
                 child: new Text('SAVE'),
@@ -91,7 +88,7 @@ class AddressBookApp extends App {
               ),
             ]
           );
-        }));
+        });
       }
     );
   }
@@ -125,13 +122,10 @@ class AddressBookApp extends App {
   }
 
   Widget buildMain(Navigator navigator) {
-    return new Focus(
-      initialFocus: nameKey,
-      child: new Scaffold(
-        toolbar: buildToolBar(navigator),
-        body: buildBody(navigator),
-        floatingActionButton: buildFloatingActionButton(navigator)
-      )
+    return new Scaffold(
+      toolbar: buildToolBar(navigator),
+      body: buildBody(navigator),
+      floatingActionButton: buildFloatingActionButton(navigator)
     );
   }
 

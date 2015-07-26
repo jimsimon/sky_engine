@@ -26,13 +26,12 @@ abstract class Key {
   factory Key(String value) => new StringKey(value);
   factory Key.stringify(Object value) => new StringKey(value.toString());
   factory Key.fromObjectIdentity(Object value) => new ObjectKey(value);
-  factory Key.unique() => new UniqueKey();
 }
 
 class StringKey extends Key {
   StringKey(this.value) : super.constructor();
   final String value;
-  String toString() => value;
+  String toString() => '[\'${value}\']';
   bool operator==(other) => other is StringKey && other.value == value;
   int get hashCode => value.hashCode;
 }
@@ -45,14 +44,101 @@ class ObjectKey extends Key {
   int get hashCode => identityHashCode(value);
 }
 
-class UniqueKey extends Key {
-  UniqueKey() : super.constructor();
-  String toString() => '[$hashCode]';
+typedef void GlobalKeyRemovalListener(GlobalKey key);
+
+abstract class GlobalKey extends Key {
+  GlobalKey.constructor() : super.constructor(); // so that subclasses can call us, since the Key() factory constructor shadows the implicit constructor
+  factory GlobalKey({ String label }) => new LabeledGlobalKey(label);
+  factory GlobalKey.fromObjectIdentity(Object value) => new GlobalObjectKey(value);
+
+  static final Map<GlobalKey, Widget> _registry = new Map<GlobalKey, Widget>();
+  static final Map<GlobalKey, int> _debugDuplicates = new Map<GlobalKey, int>();
+  static final Map<GlobalKey, Set<GlobalKeyRemovalListener>> _removalListeners = new Map<GlobalKey, Set<GlobalKeyRemovalListener>>();
+  static final Set<GlobalKey> _removedKeys = new Set<GlobalKey>();
+
+  void _register(Widget widget) {
+    assert(() {
+      if (_registry.containsKey(this)) {
+        int oldCount = _debugDuplicates.putIfAbsent(this, () => 1);
+        assert(oldCount >= 1);
+        _debugDuplicates[this] = oldCount + 1;
+      }
+      return true;
+    });
+    _registry[this] = widget;
+  }
+
+  void _unregister(Widget widget) {
+    assert(() {
+      if (_registry.containsKey(this) && _debugDuplicates.containsKey(this)) {
+        int oldCount = _debugDuplicates[this];
+        assert(oldCount >= 2);
+        if (oldCount == 2) {
+          _debugDuplicates.remove(this);
+        } else {
+          _debugDuplicates[this] = oldCount - 1;
+        }
+      }
+      return true;
+    });
+    if (_registry[this] == widget) {
+      _registry.remove(this);
+      _removedKeys.add(this);
+    }
+  }
+
+  static bool _notifyingListeners = false;
+
+  static void registerRemovalListener(GlobalKey key, GlobalKeyRemovalListener listener) {
+    assert(!_notifyingListeners);
+    assert(key != null);
+    if (!_removalListeners.containsKey(key))
+      _removalListeners[key] = new Set<GlobalKeyRemovalListener>();
+    bool added = _removalListeners[key].add(listener);
+    assert(added);
+  }
+
+  static void unregisterRemovalListener(GlobalKey key, GlobalKeyRemovalListener listener) {
+    assert(!_notifyingListeners);
+    assert(key != null);
+    assert(_removalListeners.containsKey(key));
+    bool removed = _removalListeners[key].remove(listener);
+    if (_removalListeners[key].isEmpty)
+      _removalListeners.remove(key);
+    assert(removed);
+  }
+
+  static void _notifyListeners() {
+    assert(!_inRenderDirtyComponents);
+    assert(!Widget._notifyingMountStatus);
+    assert(_debugDuplicates.isEmpty);
+    _notifyingListeners = true;
+    for (GlobalKey key in _removedKeys) {
+      if (!_registry.containsKey(key) && _removalListeners.containsKey(key)) {
+        for (GlobalKeyRemovalListener listener in _removalListeners[key])
+          listener(key);
+        _removalListeners.remove(key);
+      }
+    }
+    _removedKeys.clear();
+    _notifyingListeners = false;
+  }
+
 }
 
-class GlobalKey extends Key {
-  GlobalKey() : super.constructor();
-  String toString() => '[Global Key $hashCode]';
+class LabeledGlobalKey extends GlobalKey {
+  // the label is purely for documentary purposes and does not affect the key
+  LabeledGlobalKey(this._label) : super.constructor();
+  final String _label;
+  String toString() => '[GlobalKey ${_label != null ? _label : hashCode}]';
+}
+
+class GlobalObjectKey extends GlobalKey {
+  GlobalObjectKey(this.value) : super.constructor();
+  final Object value;
+  String toString() => '[GlobalKey ${value.runtimeType}(${value.hashCode})]';
+  bool operator==(other) => other is GlobalObjectKey && identical(other.value, value);
+  int get hashCode => identityHashCode(value);
 }
 
 /// A base class for elements of the widget tree
@@ -140,45 +226,19 @@ abstract class Widget {
       _notifyingMountStatus = false;
       sky.tracing.end("Widget._notifyMountStatusChanged");
     }
-    assert(_debugDuplicateGlobalKeys.isEmpty);
+    GlobalKey._notifyListeners();
   }
-
-  static final Map<GlobalKey, Widget> _globalKeys = new Map<GlobalKey, Widget>();
-  static final Map<GlobalKey, int> _debugDuplicateGlobalKeys = new Map<GlobalKey, int>();
 
   /// Override this function to learn when this [Widget] enters the widget tree.
   void didMount() {
-    if (key is GlobalKey) {
-      assert(() {
-        if (_globalKeys.containsKey(key)) {
-          int oldCount = _debugDuplicateGlobalKeys.putIfAbsent(key, () => 1);
-          assert(oldCount >= 1);
-          _debugDuplicateGlobalKeys[key] = oldCount + 1;
-        }
-        return true;
-      });
-      _globalKeys[key] = this;
-    }
+    if (key is GlobalKey)
+      (key as GlobalKey)._register(this); // TODO(ianh): remove cast when analyzer is cleverer
   }
 
   /// Override this function to learn when this [Widget] leaves the widget tree.
   void didUnmount() {
-    if (key is GlobalKey) {
-      assert(() {
-        if (_globalKeys.containsKey(key) && _debugDuplicateGlobalKeys.containsKey(key)) {
-          int oldCount = _debugDuplicateGlobalKeys[key];
-          assert(oldCount >= 2);
-          if (oldCount == 2) {
-            _debugDuplicateGlobalKeys.remove(key);
-          } else {
-            _debugDuplicateGlobalKeys[key] = oldCount - 1;
-          }
-        }
-        return true;
-      });
-      if (_globalKeys[key] == this)
-        _globalKeys.remove(key);
-    }
+    if (key is GlobalKey)
+      (key as GlobalKey)._unregister(this); // TODO(ianh): remove cast when analyzer is cleverer
   }
 
   RenderObject _root;
@@ -299,7 +359,7 @@ abstract class Widget {
   String toStringName() {
     if (key == null)
       return '$runtimeType(unkeyed; hashCode=$hashCode)';
-    return '$runtimeType("$key"; hashCode=$hashCode)';
+    return '$runtimeType($key; hashCode=$hashCode)';
   }
 
 }
@@ -362,7 +422,6 @@ abstract class Inherited extends TagNode {
 
   void _sync(Widget old, dynamic slot) {
     if (old != null) {
-      syncState(old);
       if (syncShouldNotify(old))
         notifyDescendants();
     }
@@ -382,8 +441,7 @@ abstract class Inherited extends TagNode {
     walkChildren(notifyChildren);
   }
 
-  void syncState(Inherited old) { }
-  bool syncShouldNotify(Inherited old) => false;
+  bool syncShouldNotify(Inherited old);
 
 }
 
@@ -485,8 +543,7 @@ abstract class Component extends Widget {
       : _order = _currentOrder + 1,
         super._withKey(key);
 
-  static Component _currentlyBuilding;
-  bool get _isBuilding => _currentlyBuilding == this;
+  bool _isBuilding = false;
 
   bool _dirty = true;
 
@@ -561,17 +618,18 @@ abstract class Component extends Widget {
       oldBuilt = old._built;
     }
 
+    _isBuilding = true;
+
     int lastOrder = _currentOrder;
     _currentOrder = _order;
-    _currentlyBuilding = this;
     _built = build();
-    assert(_built != null);
-    _currentlyBuilding = null;
     _currentOrder = lastOrder;
-
+    assert(_built != null);
     _built = syncChild(_built, oldBuilt, slot);
     assert(_built != null);
     assert(_built.parent == this);
+    _isBuilding = false;
+
     _dirty = false;
     _root = _built.root;
     assert(_root == root); // in case a subclass reintroduces it
@@ -586,7 +644,8 @@ abstract class Component extends Widget {
   }
 
   void _scheduleBuild() {
-    if (_isBuilding || _dirty || !_mounted)
+    assert(!_isBuilding);
+    if (_dirty || !_mounted)
       return;
     _dirty = true;
     _scheduleComponentForRender(this);

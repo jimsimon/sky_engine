@@ -2,12 +2,18 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+import 'dart:async';
+
 import 'package:sky/theme/colors.dart' as colors;
 import 'package:sky/widgets/basic.dart';
 import 'package:sky/widgets/default_text_style.dart';
+import 'package:sky/widgets/focus.dart';
 import 'package:sky/widgets/material.dart';
+import 'package:sky/widgets/navigator.dart';
 import 'package:sky/widgets/scrollable_viewport.dart';
 import 'package:sky/widgets/theme.dart';
+
+typedef Widget DialogBuilder(Navigator navigator);
 
 /// A material design dialog
 ///
@@ -19,7 +25,7 @@ class Dialog extends Component {
     this.content,
     this.actions,
     this.onDismiss
-  }) : super(key: key);
+  }): super(key: key);
 
   /// The (optional) title of the dialog is displayed in a large font at the top
   /// of the dialog.
@@ -99,4 +105,19 @@ class Dialog extends Component {
     ]);
 
   }
+}
+
+Future showDialog(Navigator navigator, DialogBuilder builder) {
+  Completer completer = new Completer();
+  navigator.push(new DialogRoute(
+    completer: completer,
+    builder: (navigator, route) {
+      return new Focus(
+        key: new GlobalKey.fromObjectIdentity(route),
+        autofocus: true,
+        child: builder(navigator)
+      );
+    }
+  ));
+  return completer.future;
 }
